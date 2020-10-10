@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import LandingPage from "./components/landingpage.componet";
 import "./App.css";
 
 function App() {
@@ -20,6 +19,11 @@ function App() {
           game_indices: [{game_index}]
         } = data;
         console.log(front_default, name, game_index);
+        setPokemon({
+          image: front_default,
+          name: name,
+          id: game_index
+        })
       });
   }
 
@@ -28,8 +32,12 @@ function App() {
       <h1>Pokedex</h1>
       <input ref={pokemonRef} type="text" placeholder="Search for a Pokemon" />
       <button onClick={getPokemon}>Search</button>
-      
-      <LandingPage />
+      <div className='pokemon-card'>
+        <h2>Your Pokemon: </h2>
+        <img src={currentPokemon.image} alt="image"/>
+        <h3>Name: {currentPokemon.name}</h3>
+        <h3>Pokedex Number: {currentPokemon.id}</h3>
+      </div>
     </div>
   );
 }

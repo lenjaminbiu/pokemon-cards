@@ -15,20 +15,12 @@ function App() {
       .then((resp) => resp.json())
       .then((data) => {
         const {
-          sprites: { front_default },
+          sprites: { front_default }, 
+          species: {name},
+          game_indices: [{game_index}]
         } = data;
-        console.log(front_default);
+        console.log(front_default, name, game_index);
       });
-    // if (searchName) {
-    //   // setPokemon({
-    //   //   info: allData,
-    //   //   id: allData.game_indices.game_index,
-    //   //   name: allData.species.name,
-    //   // });
-    //   const {
-    //     game_indices: [{ height, id }],
-    //   } = allData;
-    // }
   }
 
   return (
@@ -36,6 +28,7 @@ function App() {
       <h1>Pokedex</h1>
       <input ref={pokemonRef} type="text" placeholder="Search for a Pokemon" />
       <button onClick={getPokemon}>Search</button>
+      
       <LandingPage />
     </div>
   );

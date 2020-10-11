@@ -13,13 +13,13 @@ function App() {
     )
       .then((resp) => resp.json())
       .then((data) => {
-        const {
+        if (searchName) {
+          const {
           sprites: { front_default }, 
           species: {name},
           game_indices: [{game_index}]
         } = data;
-        console.log(front_default, name, game_index);
-        if (searchName) {setPokemon({
+        setPokemon({
           image: front_default,
           name: name,
           id: game_index
@@ -36,12 +36,13 @@ function App() {
   return (
     <div>
       <h1>Pokemon Finder</h1>
-      <input ref={pokemonRef} type="text" placeholder="Search for a Pokemon" />
       <ErrorBoundary>
+      <input ref={pokemonRef} type="text" placeholder="Search for a Pokemon" />
+      
         <button onClick={getPokemon}>Search</button>
       <div className='pokemon-card'>
         <h2>Your Pokemon: </h2>
-        <img src={currentPokemon.image} alt=""/>
+        <img src={currentPokemon.image} alt="" width={200} height={200}/>
         <h3>Name: {currentPokemon.name}</h3>
         <h3>Pokedex Number: {currentPokemon.id}</h3>
       </div>

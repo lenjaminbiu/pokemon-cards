@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./App.css";
+import ErrorBoundary from "./components/error-boundary.component";
 
 function App() {
   const [currentPokemon, setPokemon] = useState([]);
@@ -7,7 +8,6 @@ function App() {
 
   async function getPokemon(e) {
     const searchName = pokemonRef.current.value;
-    e.preventDefault();
     const allData = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${searchName}`
     )
@@ -19,25 +19,33 @@ function App() {
           game_indices: [{game_index}]
         } = data;
         console.log(front_default, name, game_index);
-        setPokemon({
+        if (searchName) {setPokemon({
           image: front_default,
           name: name,
           id: game_index
+        })} else {setPokemon({
+          image: null,
+          name: "",
+          id: ""
         })
+
+        }
       });
   }
 
   return (
     <div>
-      <h1>Pokedex</h1>
+      <h1>Pokemon Finder</h1>
       <input ref={pokemonRef} type="text" placeholder="Search for a Pokemon" />
-      <button onClick={getPokemon}>Search</button>
+      <ErrorBoundary>
+        <button onClick={getPokemon}>Search</button>
       <div className='pokemon-card'>
         <h2>Your Pokemon: </h2>
-        <img src={currentPokemon.image} alt="image"/>
+        <img src={currentPokemon.image} alt=""/>
         <h3>Name: {currentPokemon.name}</h3>
         <h3>Pokedex Number: {currentPokemon.id}</h3>
       </div>
+      </ErrorBoundary>
     </div>
   );
 }
